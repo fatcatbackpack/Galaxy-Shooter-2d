@@ -18,8 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnmanager;
-
-    //variable for 3shot
+    
     [SerializeField]
     private bool _isTripleShotActive = false;
     
@@ -111,7 +110,6 @@ public class Player : MonoBehaviour
         while (_isTripleShotActive == true)
         {
             yield return new WaitForSeconds(5.0f);
-
             _isTripleShotActive = false;
 
         }

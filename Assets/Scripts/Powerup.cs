@@ -10,21 +10,14 @@ public class Powerup : MonoBehaviour
     private float _lowerBound = -5.5f;
     private float _upperBound = 7.5f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
     {
-        // move down at 3
         Vector3 powerupDownSpeed = Vector3.down * _downSpeed * Time.deltaTime;
 
         transform.Translate(powerupDownSpeed);
-
-        //when we leave screen, destroy
 
         if (transform.position.y <= _lowerBound)
         {

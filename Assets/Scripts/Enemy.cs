@@ -20,11 +20,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //move down at 4m/s
         Vector3 enemyDownSpeed = Vector3.down* _downSpeed*Time.deltaTime;
 
         transform.Translate(enemyDownSpeed);
-        //when off screen, respawn at top with a new random x pos
 
         if (transform.position.y <= _lowerBound)
         {
@@ -53,7 +51,6 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            //destroy us
             Destroy(this.gameObject);
 
         }
