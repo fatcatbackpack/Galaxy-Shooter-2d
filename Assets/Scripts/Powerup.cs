@@ -8,8 +8,13 @@ public class Powerup : MonoBehaviour
     private float _downSpeed = 3f;
 
     private float _lowerBound = -5.5f;
-    private float _upperBound = 7.5f;
 
+    //id for powerups
+    //0 for 3shot
+    //1 for speed
+    //2 for shields
+    [SerializeField]
+    private int powerupID;
     
 
     // Update is called once per frame
@@ -34,7 +39,19 @@ public class Powerup : MonoBehaviour
 
             if (player != null)
             {
-                player.TripleShotActive();
+                if (powerupID == 0)
+                {
+                    player.TripleShotActive();
+                }
+                else if (powerupID == 1)
+                {
+                    Debug.Log("hello world");
+                }
+                else if (powerupID == 2)
+                {
+                    Debug.Log("hello world");
+                }
+
             }
 
             Destroy(this.gameObject);
