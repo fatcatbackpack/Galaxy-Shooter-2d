@@ -46,7 +46,7 @@ public class SpawnManager : MonoBehaviour
         {
         Vector3 boundsPU = new Vector3(Random.Range(-9f, 9f), 7.5f, 0f);
 
-            int randomPowerUp = Random.Range(0, 2);
+            int randomPowerUp = Random.Range(0, 3);
 
             yield return new WaitForSeconds(Random.Range(3, 8));
 
