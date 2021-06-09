@@ -9,11 +9,15 @@ public class Enemy : MonoBehaviour
 
     private float _lowerBound = -5.5f;
     private float _upperBound = 7.5f;
+
+    private UIManager _UIupdate;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        _UIupdate = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         transform.position = new Vector3(Random.Range(-9f, 9f), _upperBound, 0);
     }
 
@@ -50,7 +54,11 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Laser")
         {
+            
+
             Destroy(other.gameObject);
+            _UIupdate.UpScore(10);
+
             Destroy(this.gameObject);
 
         }

@@ -24,9 +24,12 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
 
-    //Variable ref for shields visual
     [SerializeField]
     GameObject _shield;
+
+    [SerializeField]
+    private int _score;
+
 
     // Start is called before the first frame update
     void Start()
@@ -166,5 +169,6 @@ public class Player : MonoBehaviour
         }
 
     }
+
 
 }
