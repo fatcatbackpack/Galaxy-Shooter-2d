@@ -18,7 +18,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+    
     private SpawnManager _spawnmanager;
+
+    private UIManager _uiManager;
     
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
@@ -37,6 +40,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
 
         _spawnmanager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         
         if (_spawnmanager == null)
         {
@@ -115,11 +119,15 @@ public class Player : MonoBehaviour
         
          _lives--;
 
+        _uiManager.UpdateLives(_lives);
+        
+
          if (_lives < 1)
             {
                 _spawnmanager.OnPLayerDeath();
 
                 Destroy(this.gameObject);
+                _uiManager.GameOver();
             }
         
     }
