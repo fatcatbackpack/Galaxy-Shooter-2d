@@ -127,7 +127,6 @@ public class Player : MonoBehaviour
                 _spawnmanager.OnPLayerDeath();
 
                 Destroy(this.gameObject);
-                _uiManager.GameOver();
             }
         
     }
