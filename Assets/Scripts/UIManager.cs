@@ -34,10 +34,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((_restartText.enabled == true) && (Input.GetKeyDown(KeyCode.R)))
-        {
-            RestartScene();
-        }
+        
     }
 
     public void UpScore(int points)
@@ -72,11 +69,6 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
         }
 
-    }
-
-    public void RestartScene()
-    {
-        SceneManager.LoadScene("Game");
     }
 
 

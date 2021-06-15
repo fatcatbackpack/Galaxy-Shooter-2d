@@ -127,6 +127,7 @@ public class Player : MonoBehaviour
                 _spawnmanager.OnPLayerDeath();
 
                 Destroy(this.gameObject);
+            GameObject.Find("Game_Manager").GetComponent<GameManager>().GameOver();
             }
         
     }
