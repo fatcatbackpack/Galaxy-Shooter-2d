@@ -11,6 +11,11 @@ public class Enemy : MonoBehaviour
     private float _upperBound = 7.5f;
 
     private UIManager _UIupdate;
+
+    //handle to anim
+    
+    [SerializeField]
+    private Animator _enemyDestruction;
     
 
     // Start is called before the first frame update
@@ -18,7 +23,20 @@ public class Enemy : MonoBehaviour
     {
         _UIupdate = GameObject.Find("Canvas").GetComponent<UIManager>();
 
+        if(_UIupdate == null)
+        {
+            Debug.LogError("Enemy:: _UIupdate");
+        }
+
         transform.position = new Vector3(Random.Range(-9f, 9f), _upperBound, 0);
+
+        
+        _enemyDestruction = GetComponent<Animator>();
+
+        if(_enemyDestruction == null)
+        {
+            Debug.LogError("Enemy:: _enemyDestruction");
+        }
     }
 
     // Update is called once per frame
@@ -47,7 +65,10 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
 
-            Destroy(this.gameObject);
+            //trigger anim
+            EnemyDestroyAnim();
+            Destroy(this.gameObject, 2.8f);
+            
         }
 
 
@@ -59,12 +80,20 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             _UIupdate.UpScore(10);
 
-            Destroy(this.gameObject);
+            //trigger anim
+            EnemyDestroyAnim();
+            Destroy(this.gameObject, 2.8f);
 
         }
 
-
+        
 
     }
 
+
+    private void EnemyDestroyAnim()
+    {
+        _enemyDestruction.SetTrigger("OnEnemyDeath");
+        _downSpeed = 0;
+    }
 }
