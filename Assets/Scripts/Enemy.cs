@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             _UIupdate.UpScore(10);
 
-            //trigger anim
+            
             EnemyDestroyAnim();
             Destroy(this.gameObject, 2.8f);
 
