@@ -5,12 +5,16 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
     [SerializeField]
+    private GameObject _explosionPrefab;
+
+    [SerializeField]
     private float _zRot = 3.0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private SpawnManager _spawnManager;
+
+    private void Start()
     {
-        
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
@@ -25,4 +29,19 @@ public class Asteroid : MonoBehaviour
        
         transform.Rotate(Vector3.forward * _zRot * Time.deltaTime);
     }
+
+    //check for laser coll
+    private void OnTriggerEnter2D(Collider2D ExplColl)
+    {
+        if (ExplColl.tag == "Laser")
+        {
+
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(ExplColl.gameObject);
+            _spawnManager.StartSpawning();
+            Destroy(this.gameObject, 0.25f);
+
+        }
+    }
+    
 }
