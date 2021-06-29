@@ -9,6 +9,11 @@ public class Player : MonoBehaviour
     private float speedBoost = 10f;
 
     [SerializeField]
+    private GameObject _RightEngine;
+    [SerializeField]
+    private GameObject _LeftEngine;
+
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _TripleShotPrefab;
@@ -41,6 +46,9 @@ public class Player : MonoBehaviour
 
         _spawnmanager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        _RightEngine.SetActive(false);
+        _LeftEngine.SetActive(false);
         
         if (_spawnmanager == null)
         {
@@ -118,6 +126,23 @@ public class Player : MonoBehaviour
         
         
          _lives--;
+        
+        if(_lives == 3)
+        {
+            _RightEngine.SetActive(false);
+            _LeftEngine.SetActive(false);
+        }
+
+        if (_lives == 2)
+        {
+            _RightEngine.SetActive(true);
+        }
+        
+        else if (_lives == 1)
+        {
+            _RightEngine.SetActive(true);
+            _LeftEngine.SetActive(true);
+        }
 
         _uiManager.UpdateLives(_lives);
         
