@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _score;
 
+    [SerializeField]
+    AudioSource _laserSound;
+
+    GameObject _audioManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -109,8 +114,10 @@ public class Player : MonoBehaviour
         else
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-        }   
+        }
 
+        //fire laser sound effect
+        _laserSound.Play();
     }
 
     public void Damage()
