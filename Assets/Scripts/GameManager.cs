@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     private bool _isGameOver = false;
 
+    [SerializeField]
+    AudioSource _explosionSound;
+
     private void Update()
     {
         if ((_isGameOver == true) && (Input.GetKeyDown(KeyCode.R)))
@@ -25,5 +28,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    
+    public void PlayExplosionSound()
+    {
+        _explosionSound.Play();
+    }
 }

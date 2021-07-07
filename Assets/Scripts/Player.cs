@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
 
     private UIManager _uiManager;
     
+    
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
@@ -40,9 +41,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     AudioSource _laserSound;
-
-    GameObject _audioManager;
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -157,9 +156,9 @@ public class Player : MonoBehaviour
          if (_lives < 1)
             {
                 _spawnmanager.OnPLayerDeath();
-
+            
                 Destroy(this.gameObject);
-            GameObject.Find("Game_Manager").GetComponent<GameManager>().GameOver();
+                GameObject.Find("Game_Manager").GetComponent<GameManager>().GameOver();
             }
         
     }

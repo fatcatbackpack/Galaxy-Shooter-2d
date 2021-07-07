@@ -11,6 +11,7 @@ public class Asteroid : MonoBehaviour
     private float _zRot = 3.0f;
 
     private SpawnManager _spawnManager;
+    
 
     private void Start()
     {
@@ -35,7 +36,7 @@ public class Asteroid : MonoBehaviour
     {
         if (ExplColl.tag == "Laser")
         {
-
+            
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(ExplColl.gameObject);
             _spawnManager.StartSpawning();

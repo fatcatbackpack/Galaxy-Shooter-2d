@@ -16,12 +16,14 @@ public class Enemy : MonoBehaviour
     
     [SerializeField]
     private Animator _enemyDestruction;
+    private AudioSource _audioSource;
     
 
     // Start is called before the first frame update
     void Start()
     {
         _UIupdate = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
 
         if(_UIupdate == null)
         {
@@ -64,11 +66,9 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-
-            //trigger anim
             EnemyDestroyAnim();
+            _audioSource.Play();
             Destroy(this.gameObject, 2.8f);
-            
         }
 
 
@@ -79,11 +79,10 @@ public class Enemy : MonoBehaviour
 
             Destroy(other.gameObject);
             _UIupdate.UpScore(10);
-
             
             EnemyDestroyAnim();
+            _audioSource.Play();
             Destroy(this.gameObject, 2.8f);
-
         }
 
         
