@@ -58,6 +58,12 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Enemy enemy = GetComponent<Enemy>();
+
+        enemy.GetComponent<BoxCollider2D>().enabled = false;
+
+
+
         if (other.tag == "Player")
         {
             Player player = other.transform.GetComponent<Player>();

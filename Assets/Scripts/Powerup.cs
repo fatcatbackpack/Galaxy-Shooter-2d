@@ -15,7 +15,11 @@ public class Powerup : MonoBehaviour
     //2 for shields
     [SerializeField]
     private int powerupID;
-    
+
+    [SerializeField]
+    private AudioClip PowerUpSound;
+
+
 
     // Update is called once per frame
     void Update()
@@ -37,17 +41,22 @@ public class Powerup : MonoBehaviour
         {
             Player player = powerUpCollision.transform.GetComponent<Player>();
 
+            AudioSource.PlayClipAtPoint(PowerUpSound, transform.position);
+
             if (player != null)
             {
                 switch (powerupID)
                 {
                     case 0:
+                        
                         player.TripleShotActive();
                         break;
                     case 1:
+                        
                         player.SpeedBoostActive();
                         break;
                     case 2:
+                        
                         player.ShieldActive();
                         break;
 
