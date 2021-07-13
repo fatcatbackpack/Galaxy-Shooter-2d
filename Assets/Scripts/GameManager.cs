@@ -10,12 +10,27 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     AudioSource _explosionSound;
 
+    [SerializeField]
+    private GameObject _escMenu;
+
+    private void Start()
+    {
+        _escMenu.SetActive(false);
+    }
+
     private void Update()
     {
         if ((_isGameOver == true) && (Input.GetKeyDown(KeyCode.R)))
         {
             RestartScene();
         }
+
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            EscapeMenu();
+        }
+        //quit application
     }
 
     public void GameOver()
@@ -32,4 +47,23 @@ public class GameManager : MonoBehaviour
     {
         _explosionSound.Play();
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ResumeGame()
+    {
+        _escMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void EscapeMenu()
+    {
+        _escMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+
 }
