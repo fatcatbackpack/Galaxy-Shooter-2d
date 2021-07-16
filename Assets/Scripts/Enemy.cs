@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _downSpeed = 4f;
+    private float _downSpeed = 1f;
 
     private float _lowerBound = -5.5f;
     private float _upperBound = 7.5f;
@@ -17,7 +17,10 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Animator _enemyDestruction;
     private AudioSource _audioSource;
-    
+
+    private float _fireRate = 3.0f;
+    private float _canFire = -1f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +47,20 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 enemyDownSpeed = Vector3.down* _downSpeed*Time.deltaTime;
+        CalculateMovement();
+
+
+        if (Time.time > _canFire)
+        {
+            _fireRate = Random.Range(3.0f, 7.0f);
+            _canFire = Time.time + _fireRate;
+        }
+
+    }
+
+    void CalculateMovement()
+    {
+        Vector3 enemyDownSpeed = Vector3.down * _downSpeed * Time.deltaTime;
 
         transform.Translate(enemyDownSpeed);
 
@@ -53,7 +69,6 @@ public class Enemy : MonoBehaviour
             float randomX = Random.Range(-9f, 9f);
             transform.position = new Vector3(randomX, _upperBound, 0);
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -101,4 +116,5 @@ public class Enemy : MonoBehaviour
         _enemyDestruction.SetTrigger("OnEnemyDeath");
         _downSpeed = 0;
     }
+
 }

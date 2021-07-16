@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3259743a26e36b04486bbc6df2115787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _downSpeed: 4
+  _downSpeed: 1
   _enemyDestruction: {fileID: 0}
+  _enemyLaserPrefab: {fileID: 2472978782764268131, guid: 7bbb6ea9e9350dd498d942bd5a82c96c, type: 3}
 --- !u!212 &7622377724843736448
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -121,7 +122,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &4003641634652053817
 BoxCollider2D:
   m_ObjectHideFlags: 0
