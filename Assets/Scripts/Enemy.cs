@@ -7,10 +7,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _downSpeed = 1f;
 
+    private bool stillAlive = true;
+
     private float _lowerBound = -5.5f;
     private float _upperBound = 7.5f;
 
     private UIManager _UIupdate;
+    private Laser _laserScript;
 
     //handle to anim
     
@@ -18,8 +21,11 @@ public class Enemy : MonoBehaviour
     private Animator _enemyDestruction;
     private AudioSource _audioSource;
 
+    [SerializeField]
+    GameObject _enemyLaserPrefab;
+
     private float _fireRate = 3.0f;
-    private float _canFire = -1f;
+    private float _canFire = -1.0f;
 
 
     // Start is called before the first frame update
@@ -50,10 +56,17 @@ public class Enemy : MonoBehaviour
         CalculateMovement();
 
 
-        if (Time.time > _canFire)
+        if ((Time.time > _canFire) && (stillAlive == true))
         {
             _fireRate = Random.Range(3.0f, 7.0f);
             _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
         }
 
     }
@@ -75,8 +88,6 @@ public class Enemy : MonoBehaviour
     {
         Enemy enemy = GetComponent<Enemy>();
 
-        enemy.GetComponent<BoxCollider2D>().enabled = false;
-
 
 
         if (other.tag == "Player")
@@ -89,6 +100,8 @@ public class Enemy : MonoBehaviour
             }
             EnemyDestroyAnim();
             _audioSource.Play();
+            enemy.GetComponent<BoxCollider2D>().enabled = false;
+            stillAlive = false;
             Destroy(this.gameObject, 2.8f);
         }
 
@@ -103,10 +116,10 @@ public class Enemy : MonoBehaviour
             
             EnemyDestroyAnim();
             _audioSource.Play();
+            enemy.GetComponent<BoxCollider2D>().enabled = false;
+            stillAlive = false;
             Destroy(this.gameObject, 2.8f);
         }
-
-        
 
     }
 
