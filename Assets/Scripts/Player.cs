@@ -9,6 +9,11 @@ public class Player : MonoBehaviour
     private float speedBoost = 10f;
 
     [SerializeField]
+    private bool _afterBurnerActive = false;
+    [SerializeField]
+    private float _afterBurnerModifier = 1.0f;
+
+    [SerializeField]
     private GameObject _RightEngine;
     [SerializeField]
     private GameObject _LeftEngine;
@@ -23,6 +28,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+
+
     
     private SpawnManager _spawnmanager;
 
@@ -83,11 +90,29 @@ public class Player : MonoBehaviour
 
         if (_isSpeedBoostActive == true)
         {
-            transform.Translate(direction * speedBoost * Time.deltaTime);
+            transform.Translate(direction * speedBoost * _afterBurnerModifier * Time.deltaTime);
         }
         else
         {
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(direction * speed * _afterBurnerModifier * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _afterBurnerActive = true;
+        }
+        else
+        {
+            _afterBurnerActive = false;
+        }
+
+        if (_afterBurnerActive == true)
+        {
+            _afterBurnerModifier = 1.5f;
+        }
+        else if (_afterBurnerActive == false)
+        {
+            _afterBurnerModifier = 1.0f;
         }
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
