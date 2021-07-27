@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     private int _lives = 3;
 
 
-    
+
     private SpawnManager _spawnmanager;
 
     private UIManager _uiManager;
@@ -42,6 +42,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject _shield;
+    [SerializeField]
+    private int _ShieldMarker = 0;
 
     [SerializeField]
     private int _score;
@@ -148,44 +150,62 @@ public class Player : MonoBehaviour
     {
         if (_isShieldActive == true)
         {
-            StopCoroutine(PowerDownRoutine());
-            _isShieldActive = false;
-            _shield.SetActive(false);
-            return;
+            _ShieldMarker--;
+
+            if (_ShieldMarker == 2)
+            {
+                //75% opacity
+                _shield.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, .75f);
+            }
+
+            if (_ShieldMarker == 1)
+            {
+                //50% opacity
+                _shield.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, .50f);
+            }
+
+            if (_ShieldMarker <= 0)
+            {
+                StopCoroutine(PowerDownRoutine());
+                _isShieldActive = false;
+                _shield.SetActive(false);
+                return;
+            }
         }
 
-        
-        
-         _lives--;
-        
-        if(_lives == 3)
+        else if (_isShieldActive == false)
         {
-            _RightEngine.SetActive(false);
-            _LeftEngine.SetActive(false);
-        }
 
-        if (_lives == 2)
-        {
-            _RightEngine.SetActive(true);
-        }
-        
-        else if (_lives == 1)
-        {
-            _RightEngine.SetActive(true);
-            _LeftEngine.SetActive(true);
-        }
+            _lives--;
 
-        _uiManager.UpdateLives(_lives);
-        
+            if (_lives == 3)
+            {
+                _RightEngine.SetActive(false);
+                _LeftEngine.SetActive(false);
+            }
 
-         if (_lives < 1)
+            if (_lives == 2)
+            {
+                _RightEngine.SetActive(true);
+            }
+
+            else if (_lives == 1)
+            {
+                _RightEngine.SetActive(true);
+                _LeftEngine.SetActive(true);
+            }
+
+            _uiManager.UpdateLives(_lives);
+
+
+            if (_lives < 1)
             {
                 _spawnmanager.OnPLayerDeath();
-            
+
                 Destroy(this.gameObject);
                 GameObject.Find("Game_Manager").GetComponent<GameManager>().GameOver();
             }
-        
+        }
     }
 
     public void TripleShotActive()
@@ -207,7 +227,9 @@ public class Player : MonoBehaviour
     public void ShieldActive()
     {
         _isShieldActive = true;
-
+        //shield markers set to 3
+        _ShieldMarker = 3;
+        _shield.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
         StartCoroutine(PowerDownRoutine());
         _shield.SetActive(true);
     }
@@ -227,8 +249,9 @@ public class Player : MonoBehaviour
         }
         while (_isShieldActive == true)
         {
-            yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSeconds(10.0f);
             _isShieldActive = false;
+            _ShieldMarker = 0;
             _shield.SetActive(false);
         }
 
