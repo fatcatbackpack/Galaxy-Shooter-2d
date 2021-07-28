@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
 
+    public int _ammo;
+
 
 
     private SpawnManager _spawnmanager;
@@ -67,6 +69,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("spawn not working");
         }
+        _ammo = 15;
     }
 
     // Update is called once per frame
@@ -131,19 +134,35 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-            _canFire = Time.time + _fireRate;
+        _canFire = Time.time + _fireRate;
 
-        if (_isTripleShotActive == true)
-        {
+        if (_ammo >= 1)
+        { 
+
+         if (_isTripleShotActive == true)
+         {
             Instantiate(_TripleShotPrefab, transform.position + new Vector3(-1.25f, -1.05f, 0), Quaternion.identity);
-        }
-        else
-        {
+                _ammo--;
+                _uiManager.UpdateAmmo();
+         }
+         else
+         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+                _ammo--;
+                _uiManager.UpdateAmmo();
+
+            }
+
+            //fire laser sound effect
+            _laserSound.Play();
+        }
+        else if (_ammo <= 0)
+        {
+            _uiManager.UpdateAmmo();
         }
 
-        //fire laser sound effect
-        _laserSound.Play();
+
+        
     }
 
     public void Damage()

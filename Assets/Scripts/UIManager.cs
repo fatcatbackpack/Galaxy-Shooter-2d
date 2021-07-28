@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
+    [SerializeField]
+    private Text _ammoText;
 
     private int _scoreActual;
 
@@ -22,13 +24,19 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Sprite[] _liveSprites;
 
+    private Player _player;
+
+    private int _ammoCount;
+
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _scoreActual = 0;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
         _scoreText.text = "Score: " + _scoreActual;
+        UpdateAmmo();
     }
 
     // Update is called once per frame
@@ -56,6 +64,21 @@ public class UIManager : MonoBehaviour
         }
 
         
+    }
+
+    public void UpdateAmmo()
+    {
+        _ammoCount = _player._ammo;
+
+        if (_ammoCount > 0)
+        {
+            _ammoText.text = "" + _ammoCount;
+        }
+        else if (_ammoCount <= 0)
+        {
+            _ammoText.text = "Out of Ammo";
+        }
+
     }
 
     IEnumerator GameOverFlicker()
