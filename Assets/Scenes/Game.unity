@@ -1368,7 +1368,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5b17a0088dcdf924fa92da5af1e1be07, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.068
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1728,6 +1728,7 @@ MonoBehaviour:
   - {fileID: 4286332056517074211, guid: 598b95e8c13eede43ab2497cff0ed63c, type: 3}
   - {fileID: 2646493780979142738, guid: fec27869036c63642b77f071c915a04c, type: 3}
   - {fileID: 9108225579820450889, guid: 8707d18b17ca9ff4c8524db94bfa51b2, type: 3}
+  - {fileID: 7324343978523192958, guid: 1df45e8754d8ca14298fc6b53bd30e15, type: 3}
   _enemyContainer: {fileID: 1593759603}
 --- !u!4 &1455887763
 Transform:
@@ -2046,7 +2047,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.068
   m_Pitch: 1
   Loop: 0
   Mute: 0

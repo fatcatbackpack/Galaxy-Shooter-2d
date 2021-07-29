@@ -259,6 +259,36 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo();
     }
 
+    public void HealthReset()
+    {
+        if (_lives <= 2)
+        {
+            _lives++;
+        }
+        else if (_lives >= 3)
+        {
+            Debug.Log("Max Health");
+        }
+
+        if (_lives == 3)
+        {
+            _RightEngine.SetActive(false);
+            _LeftEngine.SetActive(false);
+        }
+
+        if (_lives == 2)
+        {
+            _RightEngine.SetActive(true);
+        }
+
+        else if (_lives == 1)
+        {
+            _RightEngine.SetActive(true);
+            _LeftEngine.SetActive(true);
+        }
+
+    }
+
     IEnumerator PowerDownRoutine()
     {
         while (_isTripleShotActive == true)
