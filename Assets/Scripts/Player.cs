@@ -253,6 +253,12 @@ public class Player : MonoBehaviour
         _shield.SetActive(true);
     }
 
+    public void AmmoReset()
+    {
+        _ammo = 15;
+        _uiManager.UpdateAmmo();
+    }
+
     IEnumerator PowerDownRoutine()
     {
         while (_isTripleShotActive == true)
