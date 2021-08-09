@@ -24,7 +24,6 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         while (_stopSpawning == false)
         {
-            
 
             Vector3 bounds = new Vector3(Random.Range(-9f, 9f), 7.5f, 0f);
 
@@ -44,7 +43,7 @@ public class SpawnManager : MonoBehaviour
         {
         Vector3 boundsPU = new Vector3(Random.Range(-9f, 9f), 7.5f, 0f);
 
-            int randomPowerUp = Random.Range(0, 5);
+            int randomPowerUp = Random.Range(0, powerups.Length + 1);
 
             yield return new WaitForSeconds(Random.Range(3, 8));
 

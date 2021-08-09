@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
+    private bool _isAutoShotActive = false;
 
     [SerializeField]
     GameObject _shield;
@@ -62,6 +63,8 @@ public class Player : MonoBehaviour
         _spawnmanager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
+        _isAutoShotActive = false;
+
         _RightEngine.SetActive(false);
         _LeftEngine.SetActive(false);
         
@@ -77,12 +80,19 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKey(KeyCode.Space) && Time.time > _canFire && _isAutoShotActive == true)
         {
             FireLaser();
+            _canFire = Time.time + _fireRate;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _isAutoShotActive == false)
+        {
+            FireLaser();
+            _canFire = Time.time + _fireRate;
+        }
 
+        
     }
 
 
@@ -134,11 +144,11 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _canFire = Time.time + _fireRate;
+        
 
         if (_ammo >= 1)
-        { 
-
+        {
+         
          if (_isTripleShotActive == true)
          {
             Instantiate(_TripleShotPrefab, transform.position + new Vector3(-1.25f, -1.05f, 0), Quaternion.identity);
@@ -229,10 +239,21 @@ public class Player : MonoBehaviour
 
     public void TripleShotActive()
     {
+
         _isTripleShotActive = true;
-        
+        _isAutoShotActive = false;
+
         StartCoroutine (PowerDownRoutine());
 
+    }
+
+    public void AutoShotActive()
+    {
+
+        _isAutoShotActive = true;
+        _isTripleShotActive = false;
+
+        StartCoroutine(PowerDownRoutine());
     }
 
     public void SpeedBoostActive()
@@ -308,6 +329,12 @@ public class Player : MonoBehaviour
             _isShieldActive = false;
             _ShieldMarker = 0;
             _shield.SetActive(false);
+        }
+        while (_isAutoShotActive == true)
+        {
+            yield return new WaitForSeconds(5.0f);
+            _isAutoShotActive = false;
+
         }
 
     }
