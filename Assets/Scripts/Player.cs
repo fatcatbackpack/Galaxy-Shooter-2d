@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnmanager;
 
     private UIManager _uiManager;
+
+    private Shaking _shakingManager;
     
     
     private bool _isTripleShotActive = false;
@@ -62,6 +64,7 @@ public class Player : MonoBehaviour
 
         _spawnmanager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _shakingManager = GameObject.Find("Main Camera").GetComponent<Shaking>();
 
         _isAutoShotActive = false;
 
@@ -234,6 +237,8 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
                 GameObject.Find("Game_Manager").GetComponent<GameManager>().GameOver();
             }
+
+            _shakingManager.CameraShake();
         }
     }
 
