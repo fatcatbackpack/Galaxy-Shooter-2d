@@ -72,7 +72,7 @@ public class UIManager : MonoBehaviour
 
         if (_ammoCount > 0)
         {
-            _ammoText.text = "" + _ammoCount;
+            _ammoText.text = "" + _ammoCount + "/ " + 15;
         }
         else if (_ammoCount <= 0)
         {
