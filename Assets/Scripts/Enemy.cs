@@ -6,6 +6,10 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _downSpeed = 1f;
+    [SerializeField]
+    private float _sideSpeed = 1f;
+    [SerializeField]
+    private float _xPos;
 
     private bool stillAlive = true;
 
@@ -33,8 +37,9 @@ public class Enemy : MonoBehaviour
     {
         _UIupdate = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        
 
-        if(_UIupdate == null)
+        if (_UIupdate == null)
         {
             Debug.LogError("Enemy:: _UIupdate");
         }
@@ -48,6 +53,8 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Enemy:: _enemyDestruction");
         }
+
+        _xPos = transform.position.x;
     }
 
     // Update is called once per frame
@@ -73,7 +80,9 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
-        Vector3 enemyDownSpeed = Vector3.down * _downSpeed * Time.deltaTime;
+        Vector3 enemyDownSpeed = new Vector3(_sideSpeed, -_downSpeed, 0) * Time.deltaTime;
+        
+
 
         transform.Translate(enemyDownSpeed);
 
@@ -81,6 +90,15 @@ public class Enemy : MonoBehaviour
         {
             float randomX = Random.Range(-9f, 9f);
             transform.position = new Vector3(randomX, _upperBound, 0);
+        }
+
+        if (transform.position.x <= (_xPos - 2))
+        {
+            _sideSpeed = -_sideSpeed;
+        }
+        if (transform.position.x >= (_xPos + 2))
+        {
+            _sideSpeed = -_sideSpeed;
         }
     }
 
