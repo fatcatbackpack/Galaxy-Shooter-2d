@@ -71,6 +71,10 @@ public class Powerup : MonoBehaviour
                         player.AutoShotActive();
                         break;
 
+                    case 6:
+                        player.SpeedDownActive();
+                        break;
+
                     default:
                         Debug.Log("default");
                         break;

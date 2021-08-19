@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float speed = 3.5f;
     private float speedBoost = 10f;
+    [SerializeField]
+    private float speedDebuff = 1.0f;
 
     [SerializeField]
     private bool _afterBurnerActive = false;
@@ -44,6 +46,7 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
     private bool _isAutoShotActive = false;
+    private bool _isSpeedDownActive = false;
 
     [SerializeField]
     GameObject _shield;
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        speedDebuff = 1.0f;
         transform.position = new Vector3(0, 0, 0);
 
         _spawnmanager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
@@ -108,11 +112,11 @@ public class Player : MonoBehaviour
 
         if (_isSpeedBoostActive == true)
         {
-            transform.Translate(direction * speedBoost * _afterBurnerModifier * Time.deltaTime);
+            transform.Translate(direction * speedBoost * _afterBurnerModifier * speedDebuff * Time.deltaTime);
         }
         else
         {
-            transform.Translate(direction * speed * _afterBurnerModifier * Time.deltaTime);
+            transform.Translate(direction * speed * _afterBurnerModifier * speedDebuff * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -131,6 +135,15 @@ public class Player : MonoBehaviour
         else if (_afterBurnerActive == false)
         {
             _afterBurnerModifier = 1.0f;
+        }
+
+        if (_isSpeedDownActive == true)
+        {
+            speedDebuff = .50f;
+        }
+        else if (_isSpeedDownActive == false)
+        {
+            speedDebuff = 1.0f;
         }
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
@@ -269,6 +282,14 @@ public class Player : MonoBehaviour
 
     }
 
+    public void SpeedDownActive()
+    {
+        _isSpeedDownActive = true;
+
+        StartCoroutine(PowerDownRoutine());
+
+    }
+
     public void ShieldActive()
     {
         _isShieldActive = true;
@@ -341,7 +362,11 @@ public class Player : MonoBehaviour
             _isAutoShotActive = false;
 
         }
-
+        while (_isSpeedDownActive == true)
+        {
+            yield return new WaitForSeconds(5.0f);
+            _isSpeedDownActive = false;
+        }
     }
 
 
