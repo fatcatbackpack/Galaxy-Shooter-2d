@@ -10,9 +10,19 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] powerups;
     [SerializeField]
     private GameObject _enemyContainer;
+    [SerializeField]
+    private float enemyWait;
+    [SerializeField]
+    private int currentEnemyCount;
 
     private bool _stopSpawning = false;
-    
+
+    private void Start()
+    {
+        currentEnemyCount = 0;
+        enemyWait = 5.0f;
+    }
+
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
@@ -31,9 +41,25 @@ public class SpawnManager : MonoBehaviour
 
             newEnemy.transform.parent = _enemyContainer.transform;
 
-            yield return new WaitForSeconds(5.0f);
+            currentEnemyCount++;
+
+            yield return new WaitForSeconds(enemyWait);
+
+            if (currentEnemyCount >= 10 && currentEnemyCount < 20)
+            {
+                enemyWait = 3.0f;
+            }
+            else if (currentEnemyCount >= 20)
+            {
+                enemyWait = 1.0f;
+            }
+            else if (currentEnemyCount < 10)
+            {
+                enemyWait = 5.0f;
+            }
         }
 
+        
     }
 
     IEnumerator SpawnPowerupRoutine()
