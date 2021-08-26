@@ -1736,7 +1736,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2947a92d2dada6145a23b19cbfff26fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 8804346567652751566, guid: dcb27b9c07b27ba489ce096826b22a56, type: 3}
+  _enemyPrefab:
+  - {fileID: 8804346567652751566, guid: dcb27b9c07b27ba489ce096826b22a56, type: 3}
+  - {fileID: 8804346567652751566, guid: 27d05f7280992324e940b66648d6e48e, type: 3}
   powerups:
   - {fileID: 5536614760461980708, guid: e0f0b5af211ea6b4d9b65a45c0265b05, type: 3}
   - {fileID: 4286332056517074211, guid: 598b95e8c13eede43ab2497cff0ed63c, type: 3}
@@ -1744,8 +1746,10 @@ MonoBehaviour:
   - {fileID: 9108225579820450889, guid: 8707d18b17ca9ff4c8524db94bfa51b2, type: 3}
   - {fileID: 7324343978523192958, guid: 1df45e8754d8ca14298fc6b53bd30e15, type: 3}
   - {fileID: 8123538667804717412, guid: 980627ee4e3a5994997afa199a3168bb, type: 3}
-  - {fileID: 8123538667804717412, guid: 980627ee4e3a5994997afa199a3168bb, type: 3}
+  - {fileID: 8123538667804717412, guid: 2e12084598156bd44b13829eca14e3bf, type: 3}
   _enemyContainer: {fileID: 1593759603}
+  enemyWait: 0
+  currentEnemyCount: 0
 --- !u!4 &1455887763
 Transform:
   m_ObjectHideFlags: 0
@@ -2360,6 +2364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  speedDebuff: 1
   _afterBurnerActive: 0
   _afterBurnerModifier: 1
   _RightEngine: {fileID: 79397883}

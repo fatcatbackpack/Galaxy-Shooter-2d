@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject[] _enemyPrefab;
     [SerializeField]
     private GameObject[] powerups;
     [SerializeField]
@@ -31,32 +31,49 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(3.0f);
+        
         while (_stopSpawning == false)
         {
 
             Vector3 bounds = new Vector3(Random.Range(-9f, 9f), 7.5f, 0f);
 
-            GameObject newEnemy = Instantiate(_enemyPrefab, bounds, Quaternion.identity);
+            if (currentEnemyCount < 10)
+            {
+                GameObject newEnemy = Instantiate(_enemyPrefab[0], bounds, Quaternion.identity);
 
-            newEnemy.transform.parent = _enemyContainer.transform;
+                newEnemy.transform.parent = _enemyContainer.transform;
+            }
+            
+            else if (currentEnemyCount >= 10 && currentEnemyCount < 20)
+            {
+                GameObject newEnemy = Instantiate(_enemyPrefab[0], bounds, Quaternion.identity);
+
+                newEnemy.transform.parent = _enemyContainer.transform;
+
+                enemyWait = 6.0f;
+            }
+            else if (currentEnemyCount >= 20)
+            {
+                GameObject newEnemy = Instantiate(_enemyPrefab[1], bounds, Quaternion.identity);
+
+                newEnemy.transform.parent = _enemyContainer.transform;
+
+                enemyWait = 4.0f;
+            }
+            else if (currentEnemyCount < 10)
+            {
+                GameObject newEnemy = Instantiate(_enemyPrefab[1], bounds, Quaternion.identity);
+
+                newEnemy.transform.parent = _enemyContainer.transform;
+
+                enemyWait = 8.0f;
+            }
+
 
             currentEnemyCount++;
 
             yield return new WaitForSeconds(enemyWait);
 
-            if (currentEnemyCount >= 10 && currentEnemyCount < 20)
-            {
-                enemyWait = 3.0f;
-            }
-            else if (currentEnemyCount >= 20)
-            {
-                enemyWait = 1.0f;
-            }
-            else if (currentEnemyCount < 10)
-            {
-                enemyWait = 5.0f;
-            }
         }
 
         
