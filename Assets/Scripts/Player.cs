@@ -308,7 +308,7 @@ public class Player : MonoBehaviour
 
     public void HealthReset()
     {
-        if (_lives <= 2)
+        if (_lives < 3)
         {
             _lives++;
         }
@@ -333,6 +333,8 @@ public class Player : MonoBehaviour
             _RightEngine.SetActive(true);
             _LeftEngine.SetActive(true);
         }
+
+        _uiManager.UpdateLives(_lives);
 
     }
 

@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     private float enemyWait;
     [SerializeField]
     private int currentEnemyCount;
+    int randomPowerUp;
 
     private bool _stopSpawning = false;
 
@@ -81,14 +82,23 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(Random.Range(3, 8));
         while (_stopSpawning == false)
         {
         Vector3 boundsPU = new Vector3(Random.Range(-9f, 9f), 7.5f, 0f);
 
-            int randomPowerUp = Random.Range(0, powerups.Length);
+            int random = Random.Range(0, 101);
+            
 
-            yield return new WaitForSeconds(Random.Range(3, 8));
+            if (random < 11)
+            {
+                randomPowerUp = 0;
+            }
+            else if (random >= 11 && random < 21)
+            {
+                randomPowerUp = 1;
+            }
+            
 
             Instantiate(powerups[randomPowerUp], boundsPU, Quaternion.identity);
 
