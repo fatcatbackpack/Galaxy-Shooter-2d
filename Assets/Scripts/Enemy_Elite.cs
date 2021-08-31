@@ -28,9 +28,7 @@ public class Enemy_Elite : MonoBehaviour
     [SerializeField]
     private Animator _enemyDestruction;
     private AudioSource _audioSource;
-
-    [SerializeField]
-    private AudioClip _laserSound;
+    
 
     [SerializeField]
     GameObject _enemyLaserPrefab;
