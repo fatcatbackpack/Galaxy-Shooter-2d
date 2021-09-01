@@ -28,7 +28,11 @@ public class Enemy_Elite : MonoBehaviour
     [SerializeField]
     private Animator _enemyDestruction;
     private AudioSource _audioSource;
-    
+
+    [SerializeField]
+    GameObject EEShield;
+    [SerializeField]
+    private bool isEEShieldActive;
 
     [SerializeField]
     GameObject _enemyLaserPrefab;
@@ -39,6 +43,7 @@ public class Enemy_Elite : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isEEShieldActive = true;
         _UIupdate = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
 
@@ -88,34 +93,36 @@ public class Enemy_Elite : MonoBehaviour
     IEnumerator startFiring()
     {
         _fireRate = Random.Range(2.0f, 5.0f);
-        
 
-        yield return new WaitForSeconds(_fireRate);
-        GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
-        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+        while (true)
+        {
+            yield return new WaitForSeconds(_fireRate);
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
-        for (int i = 0; i < lasers.Length; i++)
-             {
+            for (int i = 0; i < lasers.Length; i++)
+            {
                 lasers[i].AssignEnemyLaser();
-             }
+            }
 
-        yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.2f);
 
-        enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
-        lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
-        for (int i = 0; i < lasers.Length; i++)
-        {
-            lasers[i].AssignEnemyLaser();
-        }
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
 
-        yield return new WaitForSeconds(.2f);
-        enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
-        lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            yield return new WaitForSeconds(.2f);
+            enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
-        for (int i = 0; i < lasers.Length; i++)
-        {
-            lasers[i].AssignEnemyLaser();
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
         }
     }
 
@@ -146,7 +153,7 @@ public class Enemy_Elite : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Enemy enemy = GetComponent<Enemy>();
+        Enemy_Elite enemy = GetComponent<Enemy_Elite>();
 
 
 
@@ -157,28 +164,49 @@ public class Enemy_Elite : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
+                isEEShieldActive = false;
             }
-            EnemyDestroyAnim();
-            _audioSource.Play();
-            enemy.GetComponent<BoxCollider2D>().enabled = false;
-            stillAlive = false;
-            Destroy(this.gameObject, 2.8f);
+
+            if (isEEShieldActive == true)
+            {
+                isEEShieldActive = false;
+                EEShield.SetActive(false);
+            }
+            else if (isEEShieldActive == false)
+            {
+                EnemyDestroyAnim();
+                _audioSource.Play();
+                enemy.GetComponent<BoxCollider2D>().enabled = false;
+                StopCoroutine(startFiring());
+                stillAlive = false;
+                Destroy(this.gameObject, 2.8f);
+            }
+            
         }
 
 
 
         if (other.tag == "Laser")
         {
+            if (isEEShieldActive == false)
+            {
+                Destroy(other.gameObject);
+                _UIupdate.UpScore(10);
 
+                EnemyDestroyAnim();
+                _audioSource.Play();
+                enemy.GetComponent<BoxCollider2D>().enabled = false;
+                stillAlive = false;
+                Destroy(this.gameObject, 2.8f);
+            }
 
-            Destroy(other.gameObject);
-            _UIupdate.UpScore(10);
-
-            EnemyDestroyAnim();
-            _audioSource.Play();
-            enemy.GetComponent<BoxCollider2D>().enabled = false;
-            stillAlive = false;
-            Destroy(this.gameObject, 2.8f);
+            else if (isEEShieldActive == true)
+            {
+                Destroy(other.gameObject);
+                isEEShieldActive = false;
+                EEShield.SetActive(false);
+            }
+            
         }
 
     }
