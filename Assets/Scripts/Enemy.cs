@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     private float _sideSpeed = 1f;
     [SerializeField]
     private float _xPos;
+    [SerializeField]
+    private float _ramBound = -7.0f;
 
     private bool stillAlive = true;
 
@@ -31,13 +33,19 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private float _canFire = -1.0f;
 
+    Transform _playerVec;
+    Vector3 _EnemyVec;
+
+    Vector3 enemyDownSpeed;
+
 
     // Start is called before the first frame update
     void Start()
     {
         _UIupdate = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
-        
+        _playerVec = GameObject.Find("Player").transform;
+
 
         if (_UIupdate == null)
         {
@@ -60,8 +68,12 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
 
+        
+        _EnemyVec = transform.position;
+        Debug.Log(Vector3.Distance(_EnemyVec, _playerVec.position));
+
+        CalculateMovement();
 
         if ((Time.time > _canFire) && (stillAlive == true))
         {
@@ -80,11 +92,20 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
-        Vector3 enemyDownSpeed = new Vector3(_sideSpeed, -_downSpeed, 0) * Time.deltaTime;
         
+        Debug.Log("calc movement");
+        if ((Vector3.Distance(_EnemyVec, _playerVec.position)) < _ramBound)
+        {
+            enemyDownSpeed = Vector3.MoveTowards(_EnemyVec, _playerVec.position, _downSpeed * Time.deltaTime);
+            transform.position = enemyDownSpeed;
+        }
 
-
-        transform.Translate(enemyDownSpeed);
+        else if ((Vector3.Distance(_EnemyVec, _playerVec.position)) >= _ramBound)
+        {
+            enemyDownSpeed = new Vector3(_sideSpeed, -_downSpeed, 0) * Time.deltaTime;
+            transform.Translate(enemyDownSpeed);
+        }
+        
 
         if (transform.position.y <= _lowerBound)
         {
