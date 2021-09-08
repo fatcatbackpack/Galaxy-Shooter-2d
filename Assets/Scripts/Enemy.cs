@@ -68,32 +68,43 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         
         _EnemyVec = transform.position;
-        Debug.Log(Vector3.Distance(_EnemyVec, _playerVec.position));
+
+        float enemyY = _EnemyVec.y;
+        float playerY = _playerVec.position.y;
 
         CalculateMovement();
 
-        if ((Time.time > _canFire) && (stillAlive == true))
+        if ((Time.time > _canFire) && (stillAlive == true && (enemyY >= playerY)))
         {
             _fireRate = Random.Range(3.0f, 7.0f);
             _canFire = Time.time + _fireRate;
             GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            
+
             for (int i = 0; i < lasers.Length; i++)
             {
                 lasers[i].AssignEnemyLaser();
             }
         }
+        else if ((Time.time > _canFire) && (stillAlive == true && (enemyY < playerY)))
+        {
+            _fireRate = Random.Range(3.0f, 7.0f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, new Vector3(transform.position.x, transform.position.y + 2.8f, 0f), Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaserUp();
+            }
+        }
     }
 
     void CalculateMovement()
     {
         
-        Debug.Log("calc movement");
         if ((Vector3.Distance(_EnemyVec, _playerVec.position)) < _ramBound)
         {
             enemyDownSpeed = Vector3.MoveTowards(_EnemyVec, _playerVec.position, _downSpeed * Time.deltaTime);
