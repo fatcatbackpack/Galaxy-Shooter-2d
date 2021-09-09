@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
         _spawnmanager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _shakingManager = GameObject.Find("Main Camera").GetComponent<Shaking>();
+        
 
         _isAutoShotActive = false;
 
@@ -98,7 +99,7 @@ public class Player : MonoBehaviour
             FireLaser();
             _canFire = Time.time + _fireRate;
         }
-
+        
         
     }
 

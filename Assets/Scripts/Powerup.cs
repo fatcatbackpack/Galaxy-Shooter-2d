@@ -15,24 +15,56 @@ public class Powerup : MonoBehaviour
     //2 for shields
     [SerializeField]
     private int powerupID;
+    private bool pwrCatch;
+
+    private Transform _playerVec;
+    Vector3 pwrUpVec;
+    Vector3 powerupDownSpeed;
 
     [SerializeField]
     private AudioClip PowerUpSound;
 
-
+    private void Start()
+    {
+        _playerVec = GameObject.Find("Player").transform;
+        pwrCatch = false;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 powerupDownSpeed = Vector3.down * _downSpeed * Time.deltaTime;
+        pwrUpVec = transform.position;
 
-        transform.Translate(powerupDownSpeed);
+        pwrupMovement();
+
+        
 
         if (transform.position.y <= _lowerBound)
         {
             Destroy(this.gameObject);
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            PowerCatchTrue();
+        }
+
+    }
+
+    private void pwrupMovement()
+    {
+        powerupDownSpeed = Vector3.down * _downSpeed * Time.deltaTime;
+
+        if ((Vector3.Distance(pwrUpVec, _playerVec.position) < 5.0f) && (pwrCatch == true))
+        {
+            powerupDownSpeed = Vector3.MoveTowards(pwrUpVec, _playerVec.position, _downSpeed * Time.deltaTime);
+            transform.position = powerupDownSpeed;
+        }
+        else
+        {
+            powerupDownSpeed = Vector3.down * _downSpeed * Time.deltaTime;
+            transform.Translate(powerupDownSpeed);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D powerUpCollision)
@@ -85,6 +117,11 @@ public class Powerup : MonoBehaviour
 
             Destroy(this.gameObject);
         }
+    }
+
+    public void PowerCatchTrue()
+    {
+        pwrCatch = true;
     }
 
 
